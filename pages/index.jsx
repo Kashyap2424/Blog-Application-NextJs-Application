@@ -1,14 +1,9 @@
-import type { NextPage } from "next";
 import Head from "next/head";
 
 import { PostCard, Categories, PostWidget } from "../Components";
+import { getPosts } from "../services/index";
 
-const posts = [
-  { title: "React Testing", excerpt: "Learn react testing" },
-  { title: "React with tailwind", excerpt: "Learn react with tailwind" },
-];
-
-const Home: NextPage = () => {
+const Home = ({ posts }) => {
   return (
     <div className="container mx-auto px-10 mb-8">
       <Head>
@@ -35,3 +30,11 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export async function getStaticProps() {
+  const posts = (await getPosts()) || [];
+
+  return {
+    props: { posts },
+  };
+}
